@@ -1,0 +1,15 @@
+{
+    "name": "Coq 8.15",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "coq-community.vscoq1", 
+                "saoudrizwan.claude-dev"
+            ]
+        }
+    },
+    "remoteUser": "coq"
+}

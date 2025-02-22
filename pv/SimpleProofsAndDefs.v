@@ -87,6 +87,14 @@ Proof. lia. Qed.
 (** 请在Coq中描述下面结论并证明：如果今年甲的年龄是乙5倍，并且5年后甲的年龄是乙的3倍，
     那么今年甲的年龄是25岁。*)
 
+Lemma age_calc: forall a_age b_age : Z,
+  a_age > 0 ->
+  b_age > 0 ->
+  a_age = 5 * b_age ->
+  a_age + 5 = 3 * (b_age + 5) ->
+  a_age = 25.
+Proof. lia. Qed.
+
 
 (** 除了线性性质之外，Coq中还可以证明的一些更复杂的性质。例如下面就可以证明，任意两个整
     数的平方和总是大于它们的乘积。证明中使用的指令_[nia]_表示的是非线性整数运算
@@ -176,8 +184,10 @@ Qed.
 Example quad_ex2: forall x: Z,
   x * x + 3 * x + 4 > 0.
 Proof.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+  intros.
+  pose proof sqr_pos (2 * x + 3).
+  nia.
+Qed.
 
 (** * 高阶函数 *)
 
@@ -304,7 +314,12 @@ Qed.
 
 Example cube_mono: mono (fun x => x * x * x).
 Proof.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+  unfold mono.
+  intros.
+  pose proof sqr_pos (n + m).
+  pose proof sqr_pos (n - m).
+  nia.
+Qed.
 
 (** “结合律”也是一个常用的数学概念。如下面定义所示，一个二元函数_[f]_具有结合律，当且
     仅当它满足_[f x (f y z) = f (f x y) z]_。*)

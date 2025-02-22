@@ -54,6 +54,5 @@ Proof. unfold nonneg, square. nia. Qed.
 
 Fact nonneg_smul: forall x y: Z,
   nonneg x -> nonneg y -> nonneg (smul x y).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+Proof. unfold nonneg, smul. nia. Qed.
 
