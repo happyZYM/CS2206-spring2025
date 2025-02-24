@@ -233,9 +233,16 @@ Qed.
 
 Lemma reverse_involutive: forall t,
   tree_reverse (tree_reverse t) = t.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
-
+Proof.
+  intros.
+  induction t.
+  + simpl.
+    reflexivity.
+  + simpl.
+    rewrite IHt1.
+    rewrite IHt2.
+    reflexivity.
+Qed.
 (** * 加强归纳 *)
 
 
