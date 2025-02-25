@@ -266,12 +266,36 @@ Fixpoint no_sequenced_skip (c: com): Prop :=
   end.
 
 (** 下面是需要证明的结论。*)
-
+Definition is_relevant_skip (c : com) : bool :=
+  match c with
+  | CSkip => true
+  | _ => false
+  end.
 Theorem remove_skip_no_sequenced_skip: forall c,
   no_sequenced_skip (remove_skip c).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
-
+Proof.
+  induction c.
+  + simpl.
+    split.
+  + simpl.
+    split.
+  + simpl. 
+    destruct (is_relevant_skip (remove_skip c1)) eqn:Heq1.
+    - unfold is_relevant_skip in Heq1.
+      simpl in Heq1.
+      assert (remove_skip c1 = CSkip).
+      {
+        destruct (remove_skip c1); try discriminate Heq1.
+        reflexivity.
+      }
+      rewrite H.
+      apply IHc2.
+    - unfold is_relevant_skip in Heq1.
+      simpl in Heq1.
+      assert (remove_skip c1 <> CSkip).
+      {
+        admit.
+      }
 End LangTrans.
 
 
