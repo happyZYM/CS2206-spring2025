@@ -6,8 +6,10 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "coq-community.vscoq1", 
-                "saoudrizwan.claude-dev"
+                "coq-community.vscoq1",
+                "saoudrizwan.claude-dev",
+                "GitHub.copilot",
+                "gao-shuhua.vsc-unicode-latex"
             ]
         }
     },

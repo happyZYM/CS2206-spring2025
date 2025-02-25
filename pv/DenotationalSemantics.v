@@ -172,22 +172,50 @@ Qed.
 Lemma plus_plus_assoc:
   forall a b c: expr_int,
     [[ a + (b + c) ]] ~=~ [[ a + b + c ]].
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold iequiv.
+  intros.
+  simpl.
+  lia.
+Qed.
 
 Lemma plus_minus_assoc:
   forall a b c: expr_int,
     [[ a + (b - c) ]] ~=~ [[ a + b - c ]].
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold iequiv.
+  intros.
+  simpl.
+  lia.
+Qed.
 
 Lemma minus_plus_assoc:
   forall a b c: expr_int,
     [[ a - (b + c) ]] ~=~ [[ a - b - c ]].
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold iequiv.
+  intros.
+  simpl.
+  lia.
+Qed.
 
 Lemma minus_minus_assoc:
   forall a b c: expr_int,
     [[ a - (b - c) ]] ~=~ [[ a - b + c ]].
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold iequiv.
+  intros.
+  simpl.
+  lia.
+Qed.
 
 
 End DntSem_SimpleWhile1.
@@ -303,7 +331,22 @@ Example same_structure_ex2: forall t1 t2 t3 t4,
   same_structure t1 t4.
 Proof.
   intros t1 t2 t3 t4 H12 H32 H34.
-  rewrite H12, <- H32, H34.
+  rewrite H12.
+  rewrite <- H32.
+  rewrite H34.
+  reflexivity.
+Qed.
+
+Example same_structure_ex2_alter2: forall t1 t2 t3 t4,
+  same_structure t1 t2 ->
+  same_structure t3 t2 ->
+  same_structure t3 t4 ->
+  same_structure t1 t4.
+Proof.
+  intros t1 t2 t3 t4 H12 H32 H34.
+  rewrite <- H34.
+  rewrite H32.
+  rewrite <- H12.
   reflexivity.
 Qed.
 
@@ -357,7 +400,8 @@ Definition any {A: Type} (a b: A): Prop := True.
 
 Proof.
   intros.
-  unfold Proper, respectful.
+  unfold Proper.
+  unfold respectful.
   intros t11 t21 ? n1 n2 _ t12 t22 ?.
   simpl.
   tauto.
@@ -434,7 +478,8 @@ Import Lang_SimpleWhile
 
 #[export] Instance iequiv_refl: Reflexive iequiv.
 Proof.
-  unfold Reflexive, iequiv.
+  unfold Reflexive.
+  unfold iequiv.
   intros.
   reflexivity.
 Qed.
