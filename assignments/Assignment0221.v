@@ -16,13 +16,23 @@ Definition opposite_sgn (x y: Z): Prop := x * y < 0.
 Fact opposite_sgn_plus_2: forall x,
   opposite_sgn (x + 2) x ->
   x = -1.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold opposite_sgn in H.
+  nia.
+Qed.
 
 Fact opposite_sgn_odds: forall x,
   opposite_sgn (square x) x ->
   x < 0.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold opposite_sgn in H.
+  unfold square in H.
+  nia.
+Qed.
 
 
 (************)
@@ -31,8 +41,15 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 
 Lemma size_nonneg: forall t,
   0 <= tree_size t.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction t.
+  - simpl.
+    lia.
+  - simpl.
+    lia.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -41,8 +58,21 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 Lemma reverse_result_Node: forall t t1 k t2,
   tree_reverse t = Node t1 k t2 ->
   t = Node (tree_reverse t2) k (tree_reverse t1).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros t.
+  induction t.
+  + discriminate.
+  + simpl.
+    intros.
+    injection H as H1 H2 H3.
+    rewrite <- H1.
+    rewrite <- H2.
+    rewrite <- H3.
+    rewrite (reverse_involutive t1).
+    rewrite (reverse_involutive t2).
+    reflexivity.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -68,5 +98,14 @@ Fixpoint right_most (t: tree) (default: Z): Z :=
 
 Lemma left_most_reverse: forall t default,
   left_most (tree_reverse t) default = right_most t default.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros t.
+  induction t.
+  - simpl.
+    reflexivity.
+  - simpl.
+    rewrite IHt2.
+    intros.
+    reflexivity.
+Qed. 
