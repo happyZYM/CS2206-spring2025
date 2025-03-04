@@ -93,7 +93,13 @@ Fact logic_ex5: forall {A: Type} (P Q: A -> Prop),
   (forall a: A, P a -> Q a) ->
   (forall a: A, P a) ->
   (forall a: A, Q a).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  pose proof H a.
+  pose proof H0 a.
+  tauto.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -105,7 +111,12 @@ Fact logic_ex6: forall {A: Type} (P Q: A -> Prop) (a0: A),
   P a0 ->
   (forall a: A, P a -> Q a) ->
   Q a0.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  pose proof H0 a0.
+  tauto.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -117,7 +128,12 @@ Fact logic_ex7: forall {A: Type} (P Q: A -> Prop) (a0: A),
   (forall a: A, P a -> Q a -> False) ->
   Q a0 -> 
   ~ P a0.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  pose proof H a0.
+  tauto.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -128,7 +144,12 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 Fact logic_ex8: forall {A B: Type} (P Q: A -> B -> Prop),
   (forall (a: A) (b: B), P a b -> Q a b) ->
   (forall (a: A) (b: B), ~ P a b \/ Q a b).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  pose proof H a b.
+  tauto.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -139,7 +160,12 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 Fact logic_ex9: forall {A B: Type} (P Q: A -> B -> Prop),
   (forall (a: A) (b: B), ~ P a b \/ Q a b) ->
   (forall (a: A) (b: B), P a b -> Q a b).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  pose proof H a b.
+  tauto.
+Qed.
 
 
 (** 尽管_[tauto]_指令利用命题逻辑永真式已经能够证明不少逻辑性质，但有些时候，我们需要
@@ -214,11 +240,30 @@ Qed.
 
 Theorem and_assoc1: forall P Q R: Prop,
   P /\ (Q /\ R) -> (P /\ Q) /\ R.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  destruct H.
+  destruct H0.
+  split.
+  split.
+  apply H.
+  apply H0.
+  apply H1.
+Qed.
 
 Theorem and_assoc2: forall P Q R: Prop,
   (P /\ Q) /\ R -> P /\ (Q /\ R).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  destruct H as [[H1 H2] H3].
+  split.
+  apply H1.
+  split.
+  apply H2.
+  apply H3.
+Qed.
 
 (** * 关于“或”的证明 *)
 
@@ -277,7 +322,15 @@ Qed.
 
 Theorem or_comm: forall P Q: Prop,
   P \/ Q  -> Q \/ P.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  destruct H as [HP | HQ].
+  + right.
+    apply HP.
+  + left.
+    apply HQ.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -287,11 +340,31 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 
 Theorem or_assoc1: forall P Q R: Prop,
   P \/ (Q \/ R)  -> (P \/ Q) \/ R.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  destruct H as [HP | [HQ | HR]].
+  + left. left.
+    apply HP.
+  + left. right.
+    apply HQ.
+  + right.
+    apply HR.
+Qed. 
 
 Theorem or_assoc2: forall P Q R: Prop,
   (P \/ Q) \/ R -> P \/ (Q \/ R).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  destruct H as [[HP | HQ] | HR].
+  + left.
+    apply HP.
+  + right. left.
+    apply HQ.
+  + right. right.
+    apply HR.
+Qed.
 
 (** * 关于“当且仅当”的证明 *)
 
@@ -352,7 +425,18 @@ Qed.
 (** 请在不使用_[tauto]_指令的情况下证明下面结论。*)
 
 Theorem or_dup: forall P: Prop, P \/ P <-> P.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  split.
+  + intros.
+    destruct H.
+    apply H.
+    apply H.
+  + intros.
+    left.
+    apply H.
+Qed.
 
 (** * 命题逻辑综合应用 *)
 
@@ -487,7 +571,14 @@ Proof. exists 2. lia. Qed.
 (************)
 
 Lemma six_is_not_prime: exists n, 2 <= n < 6 /\ exists q, n * q = 6.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  exists 2.
+  split.
+  lia.
+  exists 3.
+  lia.
+Qed.
 
 (** 当某前提形为：“存在一个_[x]_使得...”，那么可以使用Coq中的_[destruct]_指令进行
     证明。这一证明指令相当于数学证明中的：任意给定一个这样的_[x]_。 *)
@@ -522,7 +613,15 @@ Qed.
 
 Theorem exists_exists: forall (X Y: Type) (P: X -> Y -> Prop),
   (exists x y, P x y) <-> (exists y x, P x y).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  split; intros; destruct H; destruct H.
+  + exists x0, x.
+    apply H.
+  + exists x0, x.
+    apply H.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -532,8 +631,26 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 
 Theorem exists_or: forall (X: Type) (P Q: X -> Prop),
   (exists x, P x \/ Q x) <-> (exists x, P x) \/ (exists x, Q x).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  split; intros.
+  + {
+    destruct H.
+    destruct H.
+    - left.
+      exists x.
+      apply H.
+    - right.
+      exists x.
+      apply H.
+  }
+  + {
+    destruct H; destruct H; exists x.
+    - left; apply H.
+    - right; apply H.
+  }
+Qed.
 
 (** * 关于“任意”的证明 *)
 
