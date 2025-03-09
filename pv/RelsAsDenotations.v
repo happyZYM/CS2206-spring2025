@@ -457,7 +457,15 @@ Qed.
 Example Sets1_intersect_absorb_union:
   forall {A: Type} (x y: A -> Prop),
     x ∩ (x ∪ y) == x.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  apply Sets_equiv_Sets_included; split.
+  + apply Sets_intersect_included1.
+  + apply Sets_included_intersect.
+    - reflexivity.
+    - apply Sets_included_union1.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -468,7 +476,15 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 Example Sets1_union_absorb_intersect:
   forall {A: Type} (x y: A -> Prop),
     x ∪ (x ∩ y) == x.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  apply Sets_equiv_Sets_included; split.
+  + apply Sets_union_included.
+    - reflexivity.
+    - apply Sets_intersect_included1.
+  + apply Sets_included_union1.
+Qed.
 
 
 (** 基本证明方法汇总：
@@ -544,7 +560,13 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 
 Lemma Sets1_intersect_empty_l:
   forall (A: Type) (x: A -> Prop), ∅ ∩ x == ∅.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  apply Sets_equiv_Sets_included; split.
+  + apply Sets_intersect_included1.
+  + apply Sets_empty_included.
+Qed.
 
 
 (** SetsClass拓展库提供了两种支持无穷交集和无穷并集的定义。它们的证明方式与普通的并集
@@ -606,8 +628,28 @@ Lemma plus_n_plus_m:
   forall (plus_rel: Z -> Z -> Z -> Prop),
     (forall n m1 m2, (m1, m2) ∈ plus_rel n <-> m1 + n = m2) ->
     (forall n m, plus_rel n ∘ plus_rel m == plus_rel (n + m)).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  apply Sets_equiv_Sets_included; split.
+  + Sets_unfold.
+    intros.
+    apply H.
+    destruct H0.
+    destruct H0.
+    apply H in H0.
+    apply H in H1.
+    lia.
+  + Sets_unfold.
+    intros.
+    apply H in H0.
+    exists (a + n).
+    split.
+    - apply H.
+      reflexivity.
+    - apply H.
+      lia.
+Qed.
 (************)
 (** 习题：  *)
 (************)
@@ -617,17 +659,56 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 Lemma Rels22_concat_assoc:
   forall {A: Type} (x y z: A -> A -> Prop),
     (x ∘ y) ∘ z == x ∘ (y ∘ z).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros; Sets_unfold; intros; split; intros; destruct H; destruct H.
+  + destruct H.
+    destruct H.
+    exists x1.
+    split.
+    - tauto.
+    - exists x0.
+      tauto.
+  + destruct H0.
+    destruct H0.
+    exists x1.
+    split.
+    - exists x0.
+      tauto.
+    - tauto.
+Qed.
 
 Lemma Rels22_concat_id_l:
   forall {A: Type} (x: A -> A -> Prop),
     Rels.id ∘ x == x.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros; Sets_unfold; intros; split; intros.
+  + destruct H.
+    destruct H.
+    rewrite <- H in H0.
+    tauto.
+  + exists a.
+    tauto.
+Qed.
 
 Lemma Rels22_concat_union_distr_r:
   forall {A: Type} (x y z: A -> A -> Prop),
     (x ∪ y) ∘ z == x ∘ z ∪ y ∘ z.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros; Sets_unfold; intros; split; intros; destruct H; destruct H; destruct H; sets_unfold.
+  + left.
+    exists x0.
+    tauto.
+  + right.
+    exists x0.
+    tauto.
+  + exists x0.
+    tauto.
+  + exists x0.
+    tauto.
+Qed.
 
 
 (** * 程序语句指称语义的性质 *)
