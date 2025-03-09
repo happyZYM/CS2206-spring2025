@@ -73,13 +73,24 @@ Lemma CSeq_right_assoc_no_left_assoc: forall c c0,
   no_left_assoc c ->
   no_left_assoc c0 ->
   no_left_assoc (CSeq_right_assoc c c0).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction c;
+  induction c0;
+  try simpl in *; try tauto.
+Qed.
 
 (** 下面是需要证明的最终结论。*)
 
 Theorem right_assoc_no_left_assoc: forall c,
   no_left_assoc (right_assoc c).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction c; simpl; try tauto.
+  apply CSeq_right_assoc_no_left_assoc; try tauto.
+Qed.
 
 
 
@@ -93,7 +104,59 @@ Theorem if_seq:
   forall e c1 c2 c3,
     [[ if (e) then { c1 } else { c2 }; c3 ]] ~=~
     [[ if (e) then { c1; c3 } else { c2; c3 } ]].
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold cequiv.
+  unfold_sem.
+  Sets_unfold.
+  intros.
+  split; intros.
+  + destruct H.
+    destruct H.
+    destruct H.
+    destruct H.
+    destruct H.
+    - left.
+      exists x0.
+      split.
+      apply H.
+      exists x.
+      tauto.
+    - destruct H.
+      destruct H.
+      right.
+      exists x0.
+      split.
+      apply H.
+      exists x.
+      tauto.
+  + destruct H.
+    destruct H.
+    destruct H.
+    destruct H0.
+    destruct H0.
+    - exists x0.
+      split.
+      left.
+      exists x.
+      split.
+      tauto.
+      tauto.
+      tauto.
+    - destruct H.
+      destruct H.
+      destruct H0.
+      destruct H0.
+      exists x0.
+      split.
+      right.
+      exists x.
+      split.
+      tauto.
+      tauto.
+      tauto.
+Qed.
 
 
 (************)
@@ -104,10 +167,150 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 
 Lemma CSeq_right_assoc_sound: forall c c0,
   CSeq_right_assoc c c0 ~=~ [[ c; c0 ]].
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  induction c; destruct c0; try reflexivity;
+  simpl; try rewrite IHc2;
+  unfold cequiv; unfold_sem; simpl; Sets_unfold; intros; split; intros.
+  + destruct H. destruct H. destruct H0. destruct H0.
+    exists a0.
+    split.
+    exists x.
+    split.
+    apply H.
+    rewrite <- H1.
+    apply H0.
+    reflexivity.
+  + destruct H. destruct H. destruct H. destruct H.
+    exists x0.
+    split.
+    apply H.
+    exists a0.
+    split.
+    rewrite <- H0.
+    apply H1.
+    reflexivity.
+  + destruct H. destruct H. destruct H0. destruct H0.
+    exists x1.
+    split.
+    exists x0.
+    split.
+    apply H.
+    apply H0.
+    apply H1.
+  + destruct H. destruct H. destruct H. destruct H.
+    exists x1.
+    split.
+    apply H.
+    exists x0.
+    split.
+    apply H1.
+    apply H0.
+  + destruct H. destruct H. destruct H0. destruct H0. destruct H1. destruct H1.
+    exists x0.
+    split.
+    - exists x.
+      split.
+      apply H.
+      apply H0.
+    - exists x1.
+      split.
+      apply H1.
+      apply H2.
+  + destruct H. destruct H. destruct H. destruct H. destruct H0. destruct H0.
+    exists x0.
+    split.
+    apply H.
+    exists x.
+    split.
+    apply H1.
+    exists x1.
+    split.
+    apply H0.
+    apply H2.
+  + destruct H. destruct H. destruct H0. destruct H0. destruct H1. destruct H1. destruct H1.
+    - exists x0.
+      split.
+      exists x.
+      split.
+      apply H.
+      apply H0.
+      left.
+      exists x1.
+      split.
+      apply H1.
+      apply H2.
+    - destruct H1. destruct H1.
+      exists x0.
+      split.
+      exists x.
+      split.
+      apply H.
+      apply H0.
+      right.
+      exists x1.
+      split.
+      apply H1.
+      apply H2.
+  + destruct H. destruct H. destruct H. destruct H. destruct H0. destruct H0. destruct H0.
+    - exists x0.
+      split.
+      apply H.
+      exists x.
+      split.
+      apply H1.
+      left.
+      exists x1.
+      split.
+      apply H0.
+      apply H2.
+    - destruct H0. destruct H0.
+      exists x0.
+      split.
+      apply H.
+      exists x.
+      split.
+      apply H1.
+      right.
+      exists x1.
+      split.
+      apply H0.
+      apply H2.
+  + destruct H. destruct H. destruct H0. destruct H0. destruct H1.
+    exists x0.
+    split.
+    - exists x.
+      split.
+      apply H.
+      apply H0.
+    - exists x1.
+      apply H1.
+  + destruct H. destruct H. destruct H. destruct H. destruct H0. 
+    exists x0.
+    split.
+    apply H.
+    exists x.
+    split.
+    apply H1.
+    exists x1.
+    apply H0.
+Qed.
+    
+
 
 Theorem right_assoc_sound: forall c,
   right_assoc c ~=~ c.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  induction c; try reflexivity; simpl.
+  + pose proof CSeq_right_assoc_sound (right_assoc c1) (right_assoc c2).
+    rewrite H.
+    rewrite IHc1.
+    rewrite IHc2.
+    reflexivity.
+  + rewrite IHc1.
+    rewrite IHc2.
+    reflexivity.
+  + rewrite IHc.
+    reflexivity.
+Qed.
