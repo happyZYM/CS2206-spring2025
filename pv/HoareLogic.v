@@ -216,8 +216,20 @@ Lemma hoare_if_sound:
     valid {{ P && [[ e ]] }} c1 {{ Q }} ->
     valid {{ P && [[! e ]] }} c2 {{ Q }} ->
     valid {{ P }} if (e) then { c1 } else { c2 } {{ Q }}.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  unfold valid.
+  unfold_sem.
+  unfold andp, eb2assn.
+  intros.
+  destruct_union H2 as [H3 | H3];
+  destruct_concat H3 as [H3 H4].
+  + apply (H s1 s2); tauto.
+  + apply (H0 s1 s2); try tauto.
+    unfold_sem.
+    rewrite H3.
+    tauto.
+Qed.
 (************)
 (** 习题：  *)
 (************)
@@ -226,7 +238,35 @@ Lemma hoare_while_sound:
   forall (P: assertion) (e: expr_bool) (c: com),
     valid {{ P && [[ e ]] }} c {{ P }} ->
     valid {{ P }} while (e) do { c } {{ P && [[! e ]] }}.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  unfold valid.
+  unfold_sem.
+  unfold andp, eb2assn.
+  unfold_sem.
+  intros P e c Hlb s1 s2 Hs1 ?.
+  Sets_unfold1 in H.
+  destruct H as [n H].
+  revert s1 Hs1 H.
+  induction n.
+  + intros.
+    simpl in H.
+    sets_unfold in H.
+    tauto.
+  + intros.
+    simpl boundedLB in H.
+    destruct_union H as [H | H].
+    - destruct_concat H as [He H].
+      destruct_concat H as [s1' Hc H].
+      pose proof Hlb s1 s1' ltac:(tauto) Hc as Hs1'.
+      pose proof IHn s1' Hs1' H as Hs2.
+      tauto.
+    - unfold test_false in H; sets_unfold in H.
+      destruct H.
+      subst s2.
+      rewrite H; simpl.
+      tauto.
+Qed.      
 
 Lemma state_subst_fact:
   forall (s1 s2: state) (x: var_name),
@@ -252,8 +292,40 @@ Qed.
 Lemma hoare_asgn_fwd_sound:
   forall P x e,
     valid {{ P }} x = e {{ exists x', exprZ_subst [[ e ]] x [[ x' ]] == [[ x ]] && assn_subst P x [[ x' ]] }}.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold valid.
+  intros.
+  unfold exp.
+  exists (s1 x).
+  simpl.
+  unfold_substs.
+  unfold_sem.
+  unfold andp, exprZ_eq.
+  unfold ei2exprZ.
+  pose proof state_subst_fact s1 s2 x.
+  unfold_substs in H1.
+  unfold_substs.
+  assert (forall y : var_name, x <> y -> s2 y = s1 y).
+  {
+    intros.
+    sets_unfold in H0.
+    unfold_sem in H0.
+    destruct H0.
+    apply asgn_sem_other_var0.
+    tauto.
+  }
+  apply H1 in H2.
+  rewrite H2.
+  split.
+  + sets_unfold in H0.
+    unfold_sem in H0.
+    destruct H0.
+    rewrite asgn_sem_asgn_var0.
+    reflexivity.
+  + tauto.
+Qed.
 (************)
 (** 习题：  *)
 (************)
@@ -264,8 +336,19 @@ Lemma hoare_conseq_sound:
     derives P P' ->
     derives Q' Q ->
     valid {{ P }} c {{ Q }}.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold valid in *.
+  unfold derives in *.
+  intros.
+  apply H0 in H2.
+  specialize (H s1 s2).
+  apply H in H2.
+  apply H1 in H2.
+  tauto.
+  tauto.
+Qed.
 (** 下面定义可证：*)
 
 Inductive provable: HoareTriple -> Prop :=
