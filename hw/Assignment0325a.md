@@ -24,6 +24,7 @@ while (l + 1 < r) do {
         l = mid
         //@ [generated] exists l'. mid == l && (((l' + r) / 2 == mid && ((l' * l' <= n < r * r && l' + 1 <= r && x == n) && (l' + 1 < r))) && !x < mid * mid)
     }
+    //@ [generated] (exists r'. mid == r && (((l + r') / 2 == mid && ((l * l <= n < r' * r' && l + 1 <= r' && x == n) && (l + 1 < r'))) && x < mid * mid)) || (exists l'. mid == l && (((l' + r) / 2 == mid && ((l' * l' <= n < r * r && l' + 1 <= r && x == n) && (l' + 1 < r))) && !x < mid * mid))
     //@ [target] (l * l <= n < r * r && l + 1 <= r && x == n)
 }
 //@ [generated] (l * l <= n < r * r && l + 1 <= r && x == n) && !(l + 1 < r)
@@ -33,9 +34,7 @@ while (l + 1 < r) do {
 ```
 n + 1 == r && (0 == l && (n == x && true)) |-- l * l <= n < r * r && l + 1 <= r && x == n
 
-exists r'. mid == r && (((l + r') / 2 == mid && ((l * l <= n < r' * r' && l + 1 <= r' && x == n) && (l + 1 < r'))) && x < mid * mid) |-- (l * l <= n < r * r && l + 1 <= r && x == n)
-
-exists l'. mid == l' && (((l' + r) / 2 == mid && ((l' * l' <= n < r * r && l' + 1 <= r && x == n) && (l' + 1 < r))) && !x < mid * mid) |-- (l * l <= n < r * r && l + 1 <= r && x == n)
+(exists r'. mid == r && (((l + r') / 2 == mid && ((l * l <= n < r' * r' && l + 1 <= r' && x == n) && (l + 1 < r'))) && x < mid * mid)) || (exists l'. mid == l && (((l' + r) / 2 == mid && ((l' * l' <= n < r * r && l' + 1 <= r && x == n) && (l' + 1 < r))) && !x < mid * mid)) |-- (l * l <= n < r * r && l + 1 <= r && x == n)
 
 (l * l <= n < r * r && l + 1 <= r && x == n) && !(l + 1 < r) |-- l * l <= n < (l + 1) * (l + 1)
 ```
