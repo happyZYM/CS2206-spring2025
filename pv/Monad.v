@@ -261,7 +261,33 @@ Lemma bind_assoc:
          (h: B -> SetMonad.M C),
   bind (bind f g) h ==
   bind f (fun a => bind (g a) h).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold set_monad, bind, SetMonad.bind;
+  sets_unfold; intros.
+  split.
+  + intros.
+    destruct H.
+    destruct H.
+    destruct H.
+    exists x0.
+    split; try tauto.
+    exists x.
+    split.
+    destruct H.
+    tauto.
+    tauto.
+  + intros.
+    destruct H.
+    destruct H.
+    destruct H0.
+    destruct H0.
+    exists x0.
+    split; try tauto.
+    exists x.
+    split; tauto.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -274,8 +300,27 @@ Lemma bind_ret_l:
          (a: A)
          (f: A -> SetMonad.M B),
   bind (ret a) f == f a.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold set_monad, bind, SetMonad.bind;
+  sets_unfold; intros.
+  split.
+  + intros.
+    destruct H.
+    destruct H.
+    unfold ret, SetMonad.ret in H.
+    assert (a = x).
+    - apply H.
+    - subst x.
+      tauto.
+  + intros.
+    exists a.
+    split.
+    unfold ret, SetMonad.ret.
+    reflexivity.
+    tauto.
+Qed.
 (************)
 (** 习题：  *)
 (************)
@@ -286,8 +331,27 @@ Lemma bind_ret_r:
   forall (A: Type)
          (f: SetMonad.M A),
   bind f ret == f.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  unfold set_monad, bind, SetMonad.bind;
+  sets_unfold; intros.
+  split.
+  + intros.
+    destruct H.
+    destruct H.
+    assert (x = a).
+    - unfold ret, SetMonad.ret in H0.
+      apply H0.
+    - subst x.
+      tauto.
+  + intros.
+    exists a.
+    split.
+    tauto.
+    unfold ret, SetMonad.ret.
+    reflexivity.
+Qed.
 
 End SetMonadProperties0.
 

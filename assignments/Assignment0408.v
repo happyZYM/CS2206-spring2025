@@ -34,8 +34,22 @@ Theorem functional_correctness_count:
   forall n,
     0 < n ->
     Hoare (count n) (fun x => x = n).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  apply (Hoare_repeat_break _ (fun x => 0 <= x <= n)); try lia.
+  intros.
+  unfold body_count.
+  apply Hoare_choice.
+  + apply Hoare_test_bind.
+    intros.
+    apply Hoare_ret.
+    lia.
+  + apply Hoare_test_bind.
+    intros.
+    apply Hoare_ret.
+    lia.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -59,5 +73,24 @@ Theorem functional_correctness_slow_div:
     0 <= m ->
     Hoare (slow_div n m)
           (fun '(x, y) => x + n * y = m /\ 0 <= x < n).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  apply (Hoare_repeat_break
+           _
+           (fun '(x, y) => x + n * y = m /\ 0 <= x)
+           (fun '(x, y) => x + n * y = m /\ 0 <= x < n));
+    try lia.
+  intros.
+  unfold body_slow_div.
+  destruct a as [x y].
+  apply Hoare_choice.
+  + apply Hoare_test_bind.
+    intros.
+    apply Hoare_ret.
+    lia.
+  + apply Hoare_test_bind.
+    intros.
+    apply Hoare_ret.
+    lia.
+Qed.
