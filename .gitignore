@@ -1,5 +1,6 @@
 # config file
 CONFIGURE
+SUB_CONFIGURE
 
 # Object files, in general
 *.glob
