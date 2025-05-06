@@ -12,18 +12,22 @@ echo_dir :
 
 SLL_MAKE : 
 	cp SUB_CONFIGURE $(CURRENT_DIR)/sll/CONFIGURE
+	cp SUB_CONFIGURE $(CURRENT_DIR)/sll-hw/CONFIGURE
 	cd sll && $(MAKE) depend && $(MAKE) all -j5
 
 DLL_MAKE : 
 	cp SUB_CONFIGURE $(CURRENT_DIR)/dll/CONFIGURE
+	cp SUB_CONFIGURE $(CURRENT_DIR)/dll-hw/CONFIGURE
 	cd dll && $(MAKE) depend && $(MAKE) all -j5
 
 ARITH_MAKE : 
 	cp SUB_CONFIGURE $(CURRENT_DIR)/arith/CONFIGURE
+	cp SUB_CONFIGURE $(CURRENT_DIR)/arith-hw/CONFIGURE
 	cd arith && $(MAKE) depend && $(MAKE) all -j5
 
 TREE_MAKE : 
 	cp SUB_CONFIGURE $(CURRENT_DIR)/tree/CONFIGURE
+	cp SUB_CONFIGURE $(CURRENT_DIR)/tree-hw/CONFIGURE
 	cd tree && $(MAKE) depend && $(MAKE) all -j5
 
 all : echo_dir SLL_MAKE DLL_MAKE ARITH_MAKE TREE_MAKE
