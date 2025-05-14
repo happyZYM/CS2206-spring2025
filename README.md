@@ -1,4 +1,4 @@
-# README #
+# README
 
 这是我们课程相关文件的repo。
 
@@ -22,7 +22,7 @@ git submodule update --init --recursive
 ```
 
 
-
+## 编译
 repo和子模块内提供了相关的Makefile和_CoqProject用于整个项目文件的编译。
 
 windows需要自行提供CONFIGURE文件用于提供相关依赖的地址，请在cs2206-spring2024目录下新建一个无后缀名文件CONFIGURE，然后将coq安装的路径写入该文件中。我们使用的coq版本为8.15.2
@@ -86,3 +86,7 @@ make
 
 如果你希望他并发加速，那么可以使用make -j4，其中数字可以自由调整，具体取决于你的电脑有多少个核
 
+## 关于 _CoqProject
+请参照 `qcp/README.md` 中的内容，将 `_CoqProject` 文件中的 `($SL_DIR)` 和 `($COMMON_STRATEGY_DIR)` 替换成对应文件夹路径。
+
+请注意，`_CoqProject` 中 physical path 不能以 `/` 结尾，例如 `-R qcp/sll SimpleC.EE` 不能写为 `-R qcp/sll/ SimpleC.EE`，否则会出现问题。
