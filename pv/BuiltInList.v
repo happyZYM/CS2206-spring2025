@@ -251,16 +251,36 @@ Proof. reflexivity. Qed.
 Theorem rev_app_distr:
   forall A (l1 l2: list A),
     rev (l1 ++ l2) = rev l2 ++ rev l1.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l1.
+  + simpl.
+    rewrite app_nil_r.
+    reflexivity.
+  + simpl.
+    rewrite IHl1.
+    rewrite <- app_assoc.
+    reflexivity.
+Qed.
 (************)
 (** 习题：  *)
 (************)
 
 Theorem rev_involutive:
   forall A (l: list A), rev (rev l) = l.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l.
+  + simpl.
+    reflexivity.
+  + simpl.
+    rewrite rev_app_distr.
+    rewrite IHl.
+    simpl.
+    reflexivity.
+Qed.
 (** 如果熟悉函数式编程，不难发现，上面的_[rev]_定义尽管在数学是简洁明确的，但是
     其计算效率是比较低的。相对而言，利用下面的_[rev_append]_函数进行计算则效率较
     高。*)
@@ -358,7 +378,16 @@ Qed.
 Theorem map_app:
   forall X Y (f: X -> Y) (l l': list X),
     map f (l ++ l') = map f l ++ map f l'.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l.
+  + simpl.
+    reflexivity.
+  + simpl.
+    rewrite IHl.
+    reflexivity.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -369,8 +398,17 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 Theorem map_rev:
   forall X Y (f: X -> Y) (l: list X),
     map f (rev l) = rev (map f l).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l.
+  + simpl.
+    reflexivity.
+  + simpl.
+    rewrite map_app.
+    rewrite IHl.
+    reflexivity.
+Qed.
 (************)
 (** 习题：  *)
 (************)
@@ -381,8 +419,17 @@ Theorem map_ext:
   forall X Y (f g: X -> Y),
     (forall a, f a = g a) ->
     (forall l, map f l = map g l).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l.
+  + simpl.
+    reflexivity.
+  + simpl.
+    rewrite H.
+    rewrite IHl.
+    reflexivity.
+Qed.
 (************)
 (** 习题：  *)
 (************)
@@ -391,9 +438,16 @@ Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结
 
 Theorem map_id:
   forall X (l: list X), map (fun x => x) l = l.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
-
-
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l.
+  + simpl.
+    reflexivity.
+  + simpl.
+    rewrite IHl.
+    reflexivity.
+Qed.
 (** 除了提供一系列关于列表的常用函数之外，Coq标准库还提供了不少关于列表的谓词。这里我们
     只介绍其中最常用的一个：_[In]_。*)
 
@@ -578,18 +632,52 @@ Fixpoint suffixes {A: Type} (l: list A): list (list A) :=
 
 Lemma self_in_suffixes:
   forall A (l: list A), In l (suffixes l).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l.
+  + simpl.
+    tauto.
+  + simpl.
+    tauto.
+Qed.
 
 Theorem in_suffixes:
   forall A (l1 l2: list A),
     In l2 (suffixes (l1 ++ l2)).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l1.
+  + simpl.
+    apply self_in_suffixes.
+  + simpl.
+    tauto.
+Qed.
 
 Theorem in_suffixes_inv:
   forall A (l2 l: list A),
     In l2 (suffixes l) ->
     exists l1, l1 ++ l2 = l.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+    intros A l2 l H.
+    induction l as [|a l' IHl'].
+    + simpl in H.
+      destruct H as [H | []].
+      subst l2.
+      exists []. simpl. reflexivity.
+    + simpl in H.
+      destruct H as [H | H].
+      - subst l2.
+        exists []. simpl. reflexivity.
+      - apply IHl' in H.
+        destruct H as [l1 H].
+        exists (a :: l1).
+        simpl.
+        rewrite H.
+        reflexivity.
+Qed.
 
 (************)
 (** 习题：  *)
@@ -624,18 +712,61 @@ Fixpoint prefixes {A: Type} (l: list A): list (list A) :=
 
 Lemma nil_in_prefixes:
   forall A (l: list A), In nil (prefixes l).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l.
+  + simpl.
+    tauto.
+  + simpl.
+    tauto.
+Qed.
 
 Theorem in_prefixes:
   forall A (l1 l2: list A),
     In l1 (prefixes (l1 ++ l2)).
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros.
+  induction l1.
+  + apply nil_in_prefixes.
+  + simpl.
+    right.
+    apply in_map.
+    apply IHl1.
+Qed.
 
 Theorem in_prefixes_inv:
   forall A (l1 l: list A),
     In l1 (prefixes l) ->
     exists l2, l1 ++ l2 = l.
-Admitted. (* 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+(* Admitted. 请删除这一行_[Admitted]_并填入你的证明，以_[Qed]_结束。 *)
+Proof.
+  intros A l1 l.
+  generalize dependent l1.
+  induction l as [|a l' IHl']; intros l1 H.
+
+  - simpl in H.
+    destruct H as [H | []].
+    subst l1.
+    exists []. simpl. reflexivity.
+    
+  - simpl in H.
+    destruct H as [H | H].
+    
+    + subst l1.
+      exists (a :: l').
+      simpl. reflexivity.
+    + apply in_map_iff in H.
+      destruct H as [l0 [H1 H2]].
+      subst l1.
+      specialize (IHl' l0 H2).
+      destruct IHl' as [l2 IH].
+      exists l2.
+      simpl.
+      rewrite IH.
+      reflexivity.
+Qed.
 
 (************)
 (** 习题：  *)
