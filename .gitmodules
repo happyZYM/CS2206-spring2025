@@ -28,3 +28,9 @@
 [submodule "qcp/tree"]
 	path = qcp/tree
 	url = git@gitee.com:ProgramVerification/qcpe-tree.git
+[submodule "qcp/algorithm"]
+	path = qcp/algorithm
+	url = git@gitee.com:ProgramVerification/qcpe-algorithm.git
+[submodule "monadlib"]
+	path = monadlib
+    url = git@bitbucket.org:Wushushu/monadlib.git
