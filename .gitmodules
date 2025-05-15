@@ -28,3 +28,6 @@
 [submodule "qcp/tree"]
 	path = qcp/tree
 	url = git@gitee.com:ProgramVerification/qcpe-tree.git
+[submodule "qcp-repo"]
+	path = qcp-repo
+	url = https://gitee.com/ProgramVerification/qualifiedcprogramming-docker
