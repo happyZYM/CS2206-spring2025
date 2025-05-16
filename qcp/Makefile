@@ -1,4 +1,4 @@
-CURRENT_DIR=.
+CURRENT_DIR=/workspaces/CS2206-spring2025/qcp
 SLL_DIR=$(CURRENT_DIR)/sll
 
 -include CONFIGURE
