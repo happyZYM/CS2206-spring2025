@@ -93,16 +93,21 @@ typedef struct{
 /* BEGIN Given Functions */
 
 // malloc 函数，内存均初始为全0
-term *malloc_term();
 term_list *malloc_term_list();
-ImplyProp *malloc_imply_prop();
 solve_res *malloc_solve_res();
 
+// 构造函数
+ImplyProp *createImplyProp(term *t1, term *t2);
+
+// 深拷贝函数
+term *copy_term(term *t);
+term_list *copy_term_list(term_list *list);
+
 // free 函数
-void free_term_struct(term *t);
-void free_term_list_struct(term_list *list);
 void free_str(char *s);
 void free_imply_prop(ImplyProp *p);
+void free_term(term *t);
+void free_term_list(term_list *list);
 
 // string 相关函数
 char *strdup(const char *s);
@@ -113,5 +118,3 @@ int strcmp(const char *s1, const char *s2);
 term *subst_var(char *den, char *src, term *t);
 term* subst_term(term* den, char* src, term* t);
 bool alpha_equiv(term *t1, term *t2);
-term_list *copy_term_list(term_list *list);
-void free_term_list(term_list *list);

@@ -9,14 +9,6 @@ term* sub_thm(term* thm, var_sub_list* list){
     else return (void*) 0;
 }
 
-ImplyProp *createImplyProp(term *t1, term *t2)
-{
-    ImplyProp *res = malloc_imply_prop();
-    res->assum = copy_term(t1);
-    res->concl = copy_term(t2);
-    return res;
-}
-
 // apply (apply (impl) h1) (h2)
 //不是imply形式时返回(void*) 0
 ImplyProp *separate_imply(term *t)
