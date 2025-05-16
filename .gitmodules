@@ -6,31 +6,31 @@
 	url = https://bitbucket.org/qinxiang-SJTU/sets.git
 [submodule "qcp/sll"]
 	path = qcp/sll
-	url = git@gitee.com:ProgramVerification/qcpe-sll.git
+	url = https://gitee.com/ProgramVerification/qcpe-sll.git
 [submodule "qcp/sll-hw"]
 	path = qcp/sll-hw
-	url = git@gitee.com:ProgramVerification/qcpe-sll-hw.git
+	url = https://gitee.com/ProgramVerification/qcpe-sll-hw.git
 [submodule "qcp/dll"]
 	path = qcp/dll
-	url = git@gitee.com:ProgramVerification/qcpe-dll.git
+	url = https://gitee.com/ProgramVerification/qcpe-dll.git
 [submodule "qcp/dll-hw"]
 	path = qcp/dll-hw
-	url = git@gitee.com:ProgramVerification/qcpe-dll-hw.git
+	url = https://gitee.com/ProgramVerification/qcpe-dll-hw.git
 [submodule "qcp/arith"]
 	path = qcp/arith
-	url = git@gitee.com:ProgramVerification/qcpe-arith.git
+	url = https://gitee.com/ProgramVerification/qcpe-arith.git
 [submodule "qcp/arith-hw"]
 	path = qcp/arith-hw
-	url = git@gitee.com:ProgramVerification/qcpe-arith-hw.git
+	url = https://gitee.com/ProgramVerification/qcpe-arith-hw.git
 [submodule "qcp/tree-hw"]
 	path = qcp/tree-hw
-	url = git@gitee.com:ProgramVerification/qcpe-tree-hw.git
+	url = https://gitee.com/ProgramVerification/qcpe-tree-hw.git
 [submodule "qcp/tree"]
 	path = qcp/tree
-	url = git@gitee.com:ProgramVerification/qcpe-tree.git
+	url = https://gitee.com/ProgramVerification/qcpe-tree.git
 [submodule "qcp/algorithm"]
 	path = qcp/algorithm
-	url = git@gitee.com:ProgramVerification/qcpe-algorithm.git
+	url = https://gitee.com/ProgramVerification/qcpe-algorithm.git
 [submodule "monadlib"]
 	path = monadlib
-    url = git@bitbucket.org:Wushushu/monadlib.git
+	url = https://bitbucket.org/Wushushu/monadlib.git
