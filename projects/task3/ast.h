@@ -1,14 +1,4 @@
-#ifndef AST_H
-#define AST_H
-
-#include <errno.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-typedef struct term term;
-typedef enum const_type const_type;
-typedef enum quant_type quant_type;
+typedef enum {false, true} bool;
 
 enum const_type
 {
@@ -24,25 +14,23 @@ enum const_type
     Or,
     Impl
 };
+typedef enum const_type const_type;
 
 enum quant_type
 {
     Forall,
     Exists
 };
-
+typedef enum quant_type quant_type;
 
 enum term_type
 {
-    Var ,
+    Var,
     Const,
     Apply,
-    Quant,
+    Quant
 };
-
 typedef enum term_type term_type;
-
-typedef struct term_list term_list;
 
 struct term
 {
@@ -67,13 +55,14 @@ struct term
         } Quant;
     } content;
 };
-
+typedef struct term term;
 
 struct term_list
 {
     term *element;
     struct term_list *next;
 };
+typedef struct term_list term_list;
 
 typedef struct var_sub
 {
@@ -93,14 +82,36 @@ typedef struct{
     union{
         bool ans;
         term_list* list;
-    };
+    } d;
 } solve_res;
 
-term *substr_var(char *den, char *src, term *t);
-term* substr_term(term* den, char* src, term* t);
+typedef struct{
+    term *assum;
+    term *concl;
+} ImplyProp;
+
+/* BEGIN Given Functions */
+
+// malloc 函数，内存均初始为全0
+term *malloc_term();
+term_list *malloc_term_list();
+ImplyProp *malloc_imply_prop();
+solve_res *malloc_solve_res();
+
+// free 函数
+void free_term_struct(term *t);
+void free_term_list_struct(term_list *list);
+void free_str(char *s);
+void free_imply_prop(ImplyProp *p);
+
+// string 相关函数
+char *strdup(const char *s);
+int strcmp(const char *s1, const char *s2);
+
+/* END Given Functions */
+
+term *subst_var(char *den, char *src, term *t);
+term* subst_term(term* den, char* src, term* t);
 bool alpha_equiv(term *t1, term *t2);
 term_list *copy_term_list(term_list *list);
-term *copy_term(term *t);
-void free_term(term *t);
 void free_term_list(term_list *list);
-#endif
