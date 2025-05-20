@@ -1,53 +1,42 @@
-#ifndef SMT_LANG_H
-#define SMT_LANG_H 1
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-
-typedef struct SmtProp SmtProp;
-typedef struct SmtProplist SmtProplist;
-typedef enum SmtPropBop SmtPropBop;
-typedef enum SmtPropUop SmtPropUop;
-typedef enum SmtPropType SmtPropType;
-
-
-
 enum SmtPropBop{
     SMTPROP_AND ,
     SMTPROP_OR, SMTPROP_IMPLY, SMTPROP_IFF
 };
+typedef enum SmtPropBop SmtPropBop;
 
 enum SmtPropUop{
-    SMTPROP_NOT = SMTPROP_IFF+1  
+    SMTPROP_NOT = 4
 };
-
+typedef enum SmtPropUop SmtPropUop;
 
 enum SmtPropType {
-    SMTB_PROP = SMTPROP_NOT + 1, 
+    SMTB_PROP = 5, 
     SMTU_PROP, 
     SMT_PROPVAR
 };
-
+typedef enum SmtPropType SmtPropType;
 
 struct SmtProp {
     SmtPropType type;
     union {
         struct {
             SmtPropBop op;
-            SmtProp *prop1, *prop2;
+            struct SmtProp * prop1; 
+            struct SmtProp * prop2;
         } Binary_prop;
         struct {
             SmtPropUop op;
-            SmtProp *prop1;
+            struct SmtProp *prop1;
         } Unary_prop;
         int Propvar; //表示将原子命题抽象成的命题变元对应的编号
     } prop;
 };
 
+typedef struct SmtProp SmtProp;
+
 struct SmtProplist {
     SmtProp* prop;
-    SmtProplist* next;
+    struct SmtProplist* next;
 };
 
-#endif
+typedef struct SmtProplist SmtProplist;
