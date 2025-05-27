@@ -37,3 +37,6 @@
 [submodule "monadlib"]
 	path = monadlib
     url = https://bitbucket.org/Wushushu/monadlib.git
+[submodule "MiniGmp"]
+	path = MiniGmp
+	url = https://github.com/xiaoh105/MiniGmp-Verification
