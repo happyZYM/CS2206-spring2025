@@ -1,7 +1,7 @@
 #include "ast.h"
 
 term* sub_thm(term* thm, var_sub_list* list){
-    if(list == (void*) 0) return copy_term(thm);
+    if(list == (void*) 0) return thm;
     if(thm->type == Quant){
         term* den = list->cur->sub_term;
         return sub_thm(subst_term(den, list->cur->var, thm->content.Quant.body), list->next);
