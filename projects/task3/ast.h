@@ -112,6 +112,8 @@ void free_term_list(term_list *list);
 // string 相关函数
 char *strdup(const char *s);
 int strcmp(const char *s1, const char *s2);
+// 返回一个在t1和t2中都没出现过的变量名
+char *fresh(term *t1, term *t2);
 
 /* END Given Functions */
 
