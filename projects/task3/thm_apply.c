@@ -2,8 +2,10 @@
 
 term* sub_thm(term* thm, var_sub_list* list){
     if(list == (void*) 0) return thm;
-    if(thm->type == Quant){
+    if(thm->type == Quant && thm->content.Quant.type == Forall){
         term* den = list->cur->sub_term;
+        if (strcmp(thm->content.Quant.var, list->cur->var))
+            return (void*) 0; //变量名不匹配
         return sub_thm(subst_term(den, list->cur->var, thm->content.Quant.body), list->next);
     }
     else return (void*) 0;
@@ -53,11 +55,11 @@ solve_res* thm_apply(term* thm, var_sub_list* list, term* goal){
     solve_res* res = malloc_solve_res();
     if(thm_ins == (void*) 0) {
         res->type = bool_res;
-        res->d.ans = false;
+        res->d.ans = 0;
     }
     else if(alpha_equiv(thm_ins, goal)){
         res->type = bool_res;
-        res->d.ans = true;
+        res->d.ans = 1;
     }
     else{
         res->type = termlist;

@@ -1,5 +1,3 @@
-const int false = 0;
-const int true = 1;
 typedef int bool;
 
 enum const_type
